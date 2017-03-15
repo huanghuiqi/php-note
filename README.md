@@ -1,6 +1,6 @@
 ### PHP学习笔记
 #### **Day 1**
-#### 自定义网站根目录方法
+##### 自定义网站根目录方法
 第一步：更改Apache的httpd.conf文件的两处   
 
 - 1、DocumentRoot "X:/wamp\www" 中"X:/wamp\www"文件夹地址改为你新建的文件夹地址，例如"d:/phpDocument"
@@ -43,7 +43,7 @@
 - 在最后添加```127.0.0.1 test01.com```
 - 打开浏览器 访问 test01.com
 
-#### 自拟端口号（默认80端口被占用的情况）
+##### 自拟端口号（默认80端口被占用的情况）
 - wamp环境安装好后启动不了多为端口冲突
 - 打开Apache的配置文件httpd.conf，搜索80
 - #Listen 12.34.56.78:90   Listen 80改为Listen 8080,再找到ServerName localhost:80改为ServerName localhost:8080,重启服务
