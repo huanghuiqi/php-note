@@ -49,7 +49,7 @@
 - #Listen 12.34.56.78:90   Listen 80改为Listen 8080,再找到ServerName localhost:80改为ServerName localhost:8080,重启服务
 - 测试的时候需输入localhost:8080（80是默认的所以只用输入localhost）
 
-####small-note
+#### small-note
 - 连接符号是点'.'
 - 声明变量前面加$符号，相当于js的var
 - var_dump() 输出数据类型
