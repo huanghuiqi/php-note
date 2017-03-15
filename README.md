@@ -1,5 +1,5 @@
 ### PHP学习笔记
-#### <u>**Day**</u>
+#### ___**Day 1**
 ##### 自定义网站根目录方法
 第一步：更改Apache的httpd.conf文件的两处   
 
@@ -101,4 +101,4 @@ foreach (数组 as 下标 => 值){
 - str_replace( '被替换内容' , '替换内容' , 替换的字符串对象 ) : 字符串替换方法
 - function_exists() , method_exists() , class_exists()  判断是否存在某个对象
 
-#### **Day 2**
+#### ___**Day 2**
