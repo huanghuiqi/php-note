@@ -102,3 +102,71 @@ foreach (数组 as 下标 => 值){
 - function_exists() , method_exists() , class_exists()  判断是否存在某个对象
 
 #### ___**Day 2**
+#### 类和面向对象
+- 定义一个类并实例化
+```
+class Car {
+	//定义公共属性
+	public $name = "大咪";
+	
+	//定义受保护的属性
+    protected $corlor = '白色';
+    
+    //定义私有属性
+    private $price = '100000';
+
+	//受保护的属性与私有属性不允许外部调用，在类的成员方法内部是可以调用的。
+	public function getPrice() {
+        return $this->price; //内部访问私有属性
+​    }
+};
+$car = new Car();
+echo $car->name  //大咪
+echo $car->color;  //错误 受保护的属性不允许外部调用
+echo $car->price;  //错误 私有属性不允许外部调用
+```
+
+- 类的方法
+方法就是在类中的function，同属性一样，类的方法也具有public，protected 以及 private 的访问控制。
+```
+//定义方法
+class Car {
+    public function getName() {
+        return '汽车';
+    }
+}
+$car = new Car();   //得先实例化对象
+echo $car->getName();
+```
+- 构造函数和析构函数
+PHP5可以在类中使用*__construct()*定义一个构造函数，具有构造函数的类，会在每次对象创建的时候调用该函数，因此常用来在对象创建的时候进行一些初始化工作。   
+
+在子类中如果定义了__construct则不会调用父类的__construct，如果需要同时调用父类的构造函数，需要使用parent::__construct()显式的调用。
+```
+class Car {
+   function __construct() {
+       print "父类构造函数被调用\n";
+   }
+}
+class Truck extends Car {
+   function __construct() {
+       print "子类构造函数被调用\n";
+       parent::__construct();
+   }
+}
+$car = new Truck();  //子类构造函数被调用父类构造函数被调用
+```
+同样，PHP5支持析构函数，使用__destruct()进行定义，析构函数指的是当某个对象的所有引用被删除，或者对象被显式的销毁时会执行的函数。
+
+- 静态关键字static 静态方法
+使用关键字*static*修饰的，称之为静态方法，静态方法不需要实例化对象，可以通过类名直接调用，操作符为双冒号::。     
+静态方法中，$this伪变量不允许使用。可以使用*self*，*parent*，*static*在内部调用静态方法与属性。
+```
+class Car {
+    private static $speed = 10;
+    public static function getSpeed() {
+        return self::$speed;
+    }
+}
+echo Car::getSpeed();  //调用静态方法 不需要实例化对象 
+```
