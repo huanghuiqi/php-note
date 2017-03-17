@@ -170,3 +170,8 @@ class Car {
 }
 echo Car::getSpeed();  //调用静态方法 不需要实例化对象 
 ```
+
+#### ___**Day 3**
+- 获取字符串的长度 strlen($str) , 中文字符串的长度用mb_strlen($str) 
+- 字符串截取 substr(str , begin , end) , 中文截取mb_substr(str , begin , end)
+- 查找字符串的位置 strpos(要处理的字符串 , 要定位的字符串 ，定位的起始位置[可选，默认0])
