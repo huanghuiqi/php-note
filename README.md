@@ -175,3 +175,120 @@ echo Car::getSpeed();  //调用静态方法 不需要实例化对象
 - 获取字符串的长度 strlen($str) , 中文字符串的长度用mb_strlen($str) 
 - 字符串截取 substr(str , begin , end) , 中文截取mb_substr(str , begin , end)
 - 查找字符串的位置 strpos(要处理的字符串 , 要定位的字符串 ，定位的起始位置[可选，默认0])
+
+#### ___**Day 4**
+- 替换字符串 str_replace(要查找的字符串, 要替换的字符串, 被搜索的字符串, 替换进行计数[可选])
+- 字符串的合并与分割 
+1、字符串合并 implode(分隔符，数组)
+2、字符串分割 emplode(分隔符，字符串)
+- 字符转义函数 addslashes($str)   //防止sql注入
+- 正则匹配 
+```
+$p = '/apple/';
+$str = 'apple pen';
+preg_match( $p , $str )   //返回true                                                                                                                                             
+```
+- 设置cookie
+setcookie( name , value , expire , path , domain);
+后面三个参数可选
+name:cookie名 可以通过$_COOKIE['name'] 进行访问
+value:cookie值
+expire:（过期时间）Unix时间戳格式，默认为0，表示浏览器关闭即失效(一个小时 time()+3600)
+path:（有效路径）如果路径设置为'/'，则整个网站都有效
+domain:（有效域）默认整个域名都有效，如果设置了'www.imooc.com',则只在www子域中有效
+```
+<?php
+$value = time();
+//在这里设置一个名为test的Cookie
+setcookie("test",$value,time()+3600,'/','imooc.com');
+if (isset($_COOKIE['test'])) {
+    echo 'success';
+}
+```
+- 删除cookie
+```
+setcookie('test', '', time()-1); // 设置time()-1就行了
+```
+- 使用session
+```
+//开启一个session
+session_start();
+//设置键值
+$_SESSION['name'] = key;
+//也支持任意数据类型
+$_SESSION['ary'] = array('name' => 'job');
+//打印出这个session
+var_dump($_SESSION);
+```
+- 删除与销毁session
+删除某个session值可以使用PHP的unset函数，删除后就会从全局变量$_SESSION中去除，无法访问。
+```
+session_start();
+$_SESSION['name'] = 'jobs';
+unset($_SESSION['name']);
+echo $_SESSION['name']; //提示name不存在
+```
+如果要删除所有的session，可以使用session_destroy函数销毁当前session，session_destroy会删除所有数据，但是session_id仍然存在。
+```
+session_start();
+$_SESSION['name'] = 'jobs';
+$_SESSION['time'] = time();
+session_destroy();
+```
+值得注意的是，session_destroy并不会立即的销毁全局变量$_SESSION中的值，只有当下次再访问的时候，$_SESSION才为空，因此如果需要立即销毁$_SESSION，可以使用unset函数。
+```
+session_start();
+$_SESSION['name'] = 'jobs';
+$_SESSION['time'] = time();
+unset($_SESSION);
+session_destroy(); 
+var_dump($_SESSION); //此时已为空
+```
+- 使用session来存储用户登录信息
+一般来说，登录信息既可以存储在sessioin中，也可以存储在cookie中，他们之间的差别在于session可以方便的存取多种数据类型，而cookie只支持字符串类型，同时对于一些安全性比较高的数据，cookie需要进行格式化与加密存储，而session存储在服务端则安全性较高。
+```
+//加密与解密
+<?php
+session_start();
+//假设用户登录成功获得了以下用户数据
+$userinfo = array(
+    'uid'  => 10000,
+    'name' => 'spark',
+    'email' => 'spark@imooc.com',
+    'sex'  => 'man',
+    'age'  => '18'
+);
+header("content-type:text/html; charset=utf-8");
+
+/* 将用户信息保存到session中 */
+$_SESSION['uid'] = $userinfo['uid'];
+$_SESSION['name'] = $userinfo['name'];
+$_SESSION['userinfo'] = $userinfo;
+
+//* 将用户数据保存到cookie中的一个简单方法 */
+$secureKey = 'imooc'; //加密密钥
+$str = serialize($userinfo); //将用户信息序列化
+//用户信息加密前
+$str = base64_encode(mcrypt_encrypt(MCRYPT_RIJNDAEL_256, md5($secureKey), $str, MCRYPT_MODE_ECB));
+//用户信息加密后
+//将加密后的用户数据存储到cookie中
+setcookie('userinfo', $str);
+
+//当需要使用时进行解密
+$str = mcrypt_decrypt(MCRYPT_RIJNDAEL_256, md5($secureKey), base64_decode($str), MCRYPT_MODE_ECB);
+$uinfo = unserialize($str);
+echo "解密后的用户信息：<br>";
+print_r($uinfo);
+```
+- 读取文件内容
+```
+$content = file_get_contents('./test.txt');
+```
+- 判断文件是否存在
+```
+file_exists()
+```
+- 获取当前的Unix时间戳 time() [即从1970年1月1日至今 结果是一串数字]
+- 取得当前日期 date(时间戳的格式, 规定时间戳【默认是当前的日期和时间，可选】)
+时间戳格式：y-m-d
+- 取得日期的Unix时间戳 strtotime('2014-04-29')
